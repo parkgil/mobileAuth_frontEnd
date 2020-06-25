@@ -1,0 +1,2 @@
+.input-wrapper.title, .input-wrapper.input {display: inline-block;}
+.input > select, input {border: none;border-right:0px; border-top:0px; border-left:0px; border-bottom:0px;}
