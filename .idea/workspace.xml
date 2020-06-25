@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="696ac746-ea74-4bc3-8d67-5e2cbd8d7ff6" name="Default Changelist" comment="" />
+    <list default="true" id="696ac746-ea74-4bc3-8d67-5e2cbd8d7ff6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/event-handler/common.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/event-handler/phoneNumberInput.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/event-handler/registrationNumberInput.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/event-handler/vendorSelect.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,12 +20,16 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1doJqNbnMVA5U2xXo0qIcQZntcJ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -23,6 +37,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="javascript.nodejs.core.library.configured.version" value="12.14.1" />
@@ -41,7 +56,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1593085702742</updated>
-      <workItem from="1593085706587" duration="2971000" />
+      <workItem from="1593085706587" duration="7576000" />
     </task>
     <servers />
   </component>
@@ -49,9 +64,9 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="440" y="165" key="#JavaScript" timestamp="1593088370887">
+    <state x="440" y="165" key="#JavaScript" timestamp="1593098075817">
       <screen x="0" y="23" width="1680" height="954" />
     </state>
-    <state x="440" y="165" key="#JavaScript/0.23.1680.954@0.23.1680.954" timestamp="1593088370887" />
+    <state x="440" y="165" key="#JavaScript/0.23.1680.954@0.23.1680.954" timestamp="1593098075817" />
   </component>
 </project>

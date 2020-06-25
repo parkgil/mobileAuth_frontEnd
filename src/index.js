@@ -1,13 +1,19 @@
 import { eventHandler } from './test/test1';
+import { initEventHandlerOfVendorSelect} from "./event-handler/vendorSelect";
+import { initEventHandlerOfPhoneNumberInput } from "./event-handler/phoneNumberInput";
+import { initEventHandlerOfRegistrationNumberInput } from "./event-handler/registrationNumberInput";
 
 const init = () => {
     eventHandler();
+    initEventHandlerOfVendorSelect();
+    initEventHandlerOfPhoneNumberInput();
+    initEventHandlerOfRegistrationNumberInput();
 }
 
 init();
 
 // 통신사 selectbox
-const benderData = [
+const vendors = [
     {"code": "SKT", "description": "SKT"}
     ,{"code": "KT", "description": "KT"}
     ,{"code": "LGT", "description": "LG U+"}
@@ -16,9 +22,9 @@ const benderData = [
     ,{"code": "LGTMVNO", "description": "LG U+ 알뜰폰"}
 ];
 
-const benderOptions = benderData.map(bender => (`<option value=${bender.code}>${bender.description}</option>`)).join('');
-const benderSelectbox = document.querySelector('#benderNm');
-benderSelectbox.innerHTML = benderOptions;
+const venderOptions = vendors.map(vender => (`<option value=${vender.code}>${vender.description}</option>`)).join('');
+const venderSelectbox = document.querySelector('#vendors');
+venderSelectbox.innerHTML = venderOptions;
 
 
 // 동의 checkbox
@@ -58,22 +64,22 @@ allAgree.addEventListener('click', (e) => {
 
 
 // 휴대폰 번호 input
-const phoneNumberInput = document.querySelector('#phoneNumber');
-phoneNumberInput.addEventListener('keyup', (e) => {
-    console.log(e);
-    const inputValue = e.target.value;
-    if(inputValue.length > 0) {
-        const keyValue = e.key;
-        if(!Number(keyValue)) {
-            // e.preventDefault();
-            // e.defaultPrevented = true;
-            phoneNumberInput.value = inputValue.replace(/[^0-9]/gi, '');
-        } else if(inputValue.length === 3) {
-            console.log('length 3');
-            phoneNumberInput.value = inputValue + " ";
-        }
-    }
-});
+// const phoneNumberInput = document.querySelector('#phoneNumber');
+// phoneNumberInput.addEventListener('keyup', (e) => {
+//     console.log(e);
+//     const inputValue = e.target.value;
+//     if(inputValue.length > 0) {
+//         const keyValue = e.key;
+//         if(!Number(keyValue)) {
+//             // e.preventDefault();
+//             // e.defaultPrevented = true;
+//             phoneNumberInput.value = inputValue.replace(/[^0-9]/gi, '');
+//         } else if(inputValue.length === 3) {
+//             console.log('length 3');
+//             phoneNumberInput.value = inputValue + " ";
+//         }
+//     }
+// });
 // phoneNumberInput.addEventListener('keyup', checkNumber);
 // function checkNumber(e) {
 //   console.log(e);
@@ -86,21 +92,21 @@ phoneNumberInput.addEventListener('keyup', (e) => {
 
 
 // 주민등록번호 input
-const userSrnoInput = document.querySelector('#userSrno');
-userSrnoInput.addEventListener('keyup', (e) => {
-    const value = e.target.value;
-    console.log(e.keyCode);
-    console.log(value.length);
-    if(value.length === 6) {
-        console.log(value);
-        userSrnoInput.value += " - ";
-    }
-
-    // userSrnoInput.value = value;
-    console.log(userSrnoInput.value);
-});
+// const userSrnoInput = document.querySelector('#userSrno');
+// userSrnoInput.addEventListener('keyup', (e) => {
+//     const value = e.target.value;
+//     console.log(e.keyCode);
+//     console.log(value.length);
+//     if(value.length === 6) {
+//         console.log(value);
+//         userSrnoInput.value += " - ";
+//     }
+//
+//     // userSrnoInput.value = value;
+//     console.log(userSrnoInput.value);
+// });
 
 
 // 이름 input
-const userNmInput = document.querySelector('#userNm');
+// const userNmInput = document.querySelector('#userNm');
 
