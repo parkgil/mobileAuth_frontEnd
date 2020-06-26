@@ -15,13 +15,7 @@ export const handleFocusToNextInputElement = (currElement) => {
 }
 
 // input 길이 다채운 경우
-export const checkFulfiledInputLength = (e, maxLength, element) => {
-  const inputValue = e.target.value;
-  if(inputValue.length === maxLength) {
-    return true;
-  }
-  return false;
-}
+export const checkFulfiledInputLength = (e, maxLength) => e.target.value === maxLength;
 
 const addSpecialSyntaxForFormat = (value, loc, syntax) => {
   let result = '';
@@ -52,7 +46,7 @@ export const checkNumberValueLength = (e, element, standardLength) => {
   const inputValue = e.target.value;
   if(checkInputLength(inputValue, standardLength)) {
     const maxLength = typeof standardLength === 'object' ? standardLength[standardLength.length - 1] : standardLength;
-    checkFulfiledInputLength(e, maxLength, element) && handleFocusToNextInputElement(element);
+    checkFulfiledInputLength(e, maxLength) && handleFocusToNextInputElement(element);
     // error class 제거
     element.classList.remove('error');
   } else {
@@ -104,13 +98,13 @@ export const setTermLiElements = (termUlElement) => {
 // 전체동의 클릭
 export const clickAllTermsAgree = (e, termUlElement) => {
   const checked = e.target.checked;
-  const termLiElements = [...termUlElement.children];
+  const termLiElements = Array.from(termUlElement.children) || [];
   termLiElements.map(li => li.children[0].checked = checked);
 }
 
 // 약관 checkbox 클릭 이벤트
 export const clickEachTermAgree = (termUlElement, allTermsAgreeCheckboxElement) => {
-  const termLiElements = [...termUlElement.children];
+  const termLiElements = Array.from(termUlElement.children) || [];
   const nonCheckedCount = termLiElements.filter(li => !li.children[0].checked).length;
   allTermsAgreeCheckboxElement.checked = nonCheckedCount === 0;
 }
@@ -124,7 +118,7 @@ export const certify = (form) => {
   result.carrierCode = carrierCode;
 
   // input(휴대폰번호, 주민등록번호, 이름)
-  const inputElements = [...form.querySelectorAll('input[type="text"]')];
+  const inputElements = Array.from(form.querySelectorAll('input[type="text"]')) || [];
   inputElements.map(inputElement => {
     result[inputElement.id] = inputElement.value;
   });
@@ -132,8 +126,8 @@ export const certify = (form) => {
   // 약관
   let termsCode = form.querySelector('#allTermAgree:checked') ? ["1", "2", "3", "4"] : null;
   if(!termsCode) {
-    const termElments = [...form.querySelectorAll('input[type="checkbox"]:not(#allTermAgree):checked')];
-    termsCode = termElments.map(term => term.value);
+    const termElements = Array.from(form.querySelectorAll('input[type="checkbox"]:not(#allTermAgree):checked')) || [];
+    termsCode = termElements.map(term => term.value);
   }
   result.termsCode = termsCode;
 
