@@ -1,4 +1,4 @@
-export const Vendors = [
+export const Carriers = [
   { "code": "SKT", "description": "SKT" },
   { "code": "KT", "description": "KT" },
   { "code": "LGT", "description": "LG U+" },

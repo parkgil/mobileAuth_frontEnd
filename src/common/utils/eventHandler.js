@@ -1,8 +1,8 @@
-import { Vendors } from '../constants/vendors';
+import { Carriers } from '../constants/carriers';
 import { Terms } from '../constants/terms';
 import {
   checkInputLength,
-  checkNumberFormat
+  checkNumberFormat,
 } from './validator'
 
 // 다음 항목으로 포커스 이동
@@ -23,9 +23,10 @@ export const handleFullInputLength = (e, maxLength, element) => {
 }
 
 // 통신사 option element 설정
-export const setVendorOptionElements = (vendorSelectElement) => {
-  const venderOptions = Vendors.map(vender => (`<option value=${vender.code}>${vender.description}</option>`)).join('');
-  vendorSelectElement.innerHTML = venderOptions;
+export const setCarrierOptionElements = (carrierSelectElement) => {
+  const carrierOptions = Carriers.map(carrier => (`<option value=${carrier.code}>${carrier.description}</option>`)).join('');
+  console.log(carrierOptions);
+  carrierSelectElement.innerHTML = carrierOptions;
 }
 
 // 휴대폰 번호 input format(스페이스바 삽입) && validation check(validator.js에 작성) : keydown
@@ -62,4 +63,29 @@ export const clickEachTermAgree = (termUlElement, allTermsAgreeCheckboxElement) 
   const termLiElements = [...termUlElement.children];
   const nonCheckedCount = termLiElements.filter(li => !li.children[0].checked).length;
   allTermsAgreeCheckboxElement.checked = nonCheckedCount === 0;
+}
+
+
+export const certify = (form) => {
+  let result = {name: null, registerNumber: null, carrierCode: null, phoneNumber: null, termsCode: null};
+
+  // 통신사
+  const carrierCode = form.querySelector('#carrier').value;
+  result.carrierCode = carrierCode;
+
+  // input(휴대폰번호, 주민등록번호, 이름)
+  const inputElements = [...form.querySelectorAll('input[type="text"]')];
+  inputElements.map(inputElement => {
+    result[inputElement.id] = inputElement.value;
+  });
+  
+  // 약관
+  let termsCode = form.querySelector('#allTermAgree:checked') ? ["1", "2", "3", "4"] : null;
+  if(!termsCode) {
+    const termElments = [...form.querySelectorAll('input[type="checkbox"]:not(#allTermAgree):checked')];
+    termsCode = termElments.map(term => term.value);
+  }
+  result.termsCode = termsCode;
+
+  console.log(result);
 }
