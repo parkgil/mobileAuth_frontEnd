@@ -1,5 +1,9 @@
 import { Vendors } from '../constants/vendors';
 import { Terms } from '../constants/terms';
+import {
+  checkInputLength,
+  checkNumberFormat
+} from './validator'
 
 // 다음 항목으로 포커스 이동
 export const handleFocusToNextInputElement = (currElement) => {
@@ -25,7 +29,16 @@ export const setVendorOptionElements = (vendorSelectElement) => {
 }
 
 // 휴대폰 번호 input format(스페이스바 삽입) && validation check(validator.js에 작성) : keydown
+export const checkPhoneNumberInputValue = (e, phoneNumberInput) => {
+  const currKey = e.key;
+  const inputValue = e.target.value;
+  if(checkInputLength(inputValue) && checkNumberFormat(currKey)) {
 
+  } else {
+
+  }
+
+}
 // 주민등록 번호 input format(- 삽입) && validation check(validator.js에 작성) : keydown
 
 // 이름 input validation check(validator.js)에 작성 : keydown
@@ -38,16 +51,15 @@ export const setTermLiElements = (termUlElement) => {
 }
 
 // 전체동의 클릭
-export const clickAllAgree = (e, termUlElement) => {
+export const clickAllTermsAgree = (e, termUlElement) => {
   const checked = e.target.checked;
   const termLiElements = [...termUlElement.children];
   termLiElements.map(li => li.children[0].checked = checked);
 }
 
 // 약관 checkbox 클릭 이벤트
-export const clickEachTermAgree = (termUlElement) => {
+export const clickEachTermAgree = (termUlElement, allTermsAgreeCheckboxElement) => {
   const termLiElements = [...termUlElement.children];
-  console.log(termLiElements.filter(li => !li.children[0].checked));
   const nonCheckedCount = termLiElements.filter(li => !li.children[0].checked).length;
-  allAgree.checked = nonCheckedCount === 0;
+  allTermsAgreeCheckboxElement.checked = nonCheckedCount === 0;
 }

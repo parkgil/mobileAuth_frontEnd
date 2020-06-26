@@ -2,7 +2,7 @@ import {
     handleFocusToNextInputElement,
     setVendorOptionElements,
     setTermLiElements,
-    clickAllAgree,
+    clickAllTermsAgree,
     clickEachTermAgree,
     handleFullInputLength,
 } from './common/utils/eventHandler';
@@ -30,8 +30,8 @@ nameInput.addEventListener('keyup', (e) => handleFullInputLength(e, 3, nameInput
 // 약관 ul element
 const termUlElement = document.querySelector('#terms');
 setTermLiElements(termUlElement);
-termUlElement.addEventListener('click', () => clickEachTermAgree(termUlElement));
+termUlElement.addEventListener('click', () => clickEachTermAgree(termUlElement, allTermsAgreeCheckboxElement));
 
 // 전체 동의 checkbox element
-const allAgreeCheckboxElement = document.querySelector('#allAgree');
-allAgreeCheckboxElement.addEventListener('click', (e) => clickAllAgree(e, termUlElement));
+const allTermsAgreeCheckboxElement = document.querySelector('#allTermAgree');
+allTermsAgreeCheckboxElement.addEventListener('click', (e) => clickAllTermsAgree(e, termUlElement));
