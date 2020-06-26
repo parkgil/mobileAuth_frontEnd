@@ -12,17 +12,19 @@ import {
 } from './common/utils/eventHandler';
 
 import {
-  removeAllWhiteSpace,
-  removeAllHyphen
+  replaceStrForRegex,
 } from './common/utils/commonUtil';
 
 
 // 통신사 select element
 const carrierSelectElement = document.querySelector('#carrier');
-// 통신사 option element 설정
-setCarrierOptionElements(carrierSelectElement);
-// 통신사 selectbox change 이벤트: 다음 input으로 포커스 이동
-carrierSelectElement.addEventListener('change', () => handleFocusToNextInputElement(carrierSelectElement));
+if(carrierSelectElement) {
+  // 통신사 option element 설정
+  setCarrierOptionElements(carrierSelectElement);
+  // 통신사 selectbox change 이벤트: 다음 input으로 포커스 이동
+  carrierSelectElement.addEventListener('change', () => handleFocusToNextInputElement(carrierSelectElement));
+}
+
 
 
 // 휴대폰번호 input element
@@ -41,7 +43,7 @@ if(phoneNumberInputElement) {
     formattingPhoneNumber(phoneNumberInputElement);
   });
   phoneNumberInputElement.addEventListener('focusin', () => {
-    const trimInputValue = removeAllWhiteSpace(phoneNumberInputElement.value);
+    const trimInputValue = replaceStrForRegex(phoneNumberInputElement.value, /(\s*)/g);
     if(trimInputValue) phoneNumberInputElement.value = trimInputValue;
   });
 }
@@ -63,7 +65,8 @@ if(registerNumberInputElement) {
     formattingRegisterNumber(registerNumberInputElement);
   });
   registerNumberInputElement.addEventListener('focusin', () => {
-    const trimInputValue = removeAllHyphen(registerNumberInputElement.value);
+    const trimInputValue = replaceStrForRegex(registerNumberInputElement.value, /\-/g);
+
     if(trimInputValue) registerNumberInputElement.value = trimInputValue;
   });
 }
@@ -71,21 +74,33 @@ if(registerNumberInputElement) {
 
 
 // 이름 input element
-const nameInput = document.querySelector('#name');
-nameInput.addEventListener('keyup', (e) => {});
+const nameInputElement = document.querySelector('#name');
+if(nameInputElement) {
+  nameInputElement.addEventListener('keydown', () => {
+    const trimInputValue = replaceStrForRegex(nameInputElement.value, /[a-z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g);
+    nameInputElement.value = trimInputValue;
+  });
+}
+
 
 
 // 약관 ul element
 const termUlElement = document.querySelector('#terms');
-setTermLiElements(termUlElement);
-termUlElement.addEventListener('click', () => clickEachTermAgree(termUlElement, allTermsAgreeCheckboxElement));
+if(termUlElement) {
+  setTermLiElements(termUlElement);
+  termUlElement.addEventListener('click', () => clickEachTermAgree(termUlElement, allTermsAgreeCheckboxElement));
+}
 
 // 전체 동의 checkbox element
 const allTermsAgreeCheckboxElement = document.querySelector('#allTermAgree');
-allTermsAgreeCheckboxElement.addEventListener('click', (e) => clickAllTermsAgree(e, termUlElement));
+if(allTermsAgreeCheckboxElement) {
+  allTermsAgreeCheckboxElement.addEventListener('click', (e) => clickAllTermsAgree(e, termUlElement));
+}
 
 
 // 인증하기 element
 const certifyButtonElement = document.querySelector('#certify');
-const form = document.querySelector('form');
-certifyButtonElement.addEventListener('click', () => certify(form));
+if(certifyButtonElement) {
+  const form = document.querySelector('form');
+  certifyButtonElement.addEventListener('click', () => certify(form));
+}
