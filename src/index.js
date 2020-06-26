@@ -4,15 +4,16 @@ import {
   setTermLiElements,
   clickAllTermsAgree,
   clickEachTermAgree,
-  handleFullInputLength,
   certify,
-  checkPhoneNumberLength,
+  checkNumberValueLength,
   checkNumberValue,
   formattingPhoneNumber,
+  formattingRegisterNumber,
 } from './common/utils/eventHandler';
 
 import {
-  removeSpace
+  removeAllWhiteSpace,
+  removeAllHyphen
 } from './common/utils/commonUtil';
 
 
@@ -30,17 +31,17 @@ if(phoneNumberInputElement) {
   // 휴대폰번호 keyup event
   phoneNumberInputElement.addEventListener('keyup', (e) => {
     // 휴대폰번호 길이 체크
-    checkPhoneNumberLength(e, phoneNumberInputElement);
+    checkNumberValueLength(e, phoneNumberInputElement, [10, 11]);
   });
   phoneNumberInputElement.addEventListener('keydown', (e) => {
     checkNumberValue(e);
   });
   phoneNumberInputElement.addEventListener('focusout', (e) => {
-    checkPhoneNumberLength(e, phoneNumberInputElement);
+    checkNumberValueLength(e, phoneNumberInputElement, [10, 11]);
     formattingPhoneNumber(phoneNumberInputElement);
   });
   phoneNumberInputElement.addEventListener('focusin', () => {
-    const trimInputValue = removeSpace(phoneNumberInputElement.value).replace(/(\s*)/g, '');
+    const trimInputValue = removeAllWhiteSpace(phoneNumberInputElement.value);
     if(trimInputValue) phoneNumberInputElement.value = trimInputValue;
   });
 }
@@ -49,12 +50,24 @@ if(phoneNumberInputElement) {
 
 // 주민등록번호 input element
 const registerNumberInputElement = document.querySelector('#registerNumber');
-registerNumberInputElement.addEventListener('keyup', (e) => {
-  handleFullInputLength(e, 7, registerNumberInputElement);
-});
-registerNumberInputElement.addEventListener('keydown', (e) => {
-  checkNumberValue(e);
-})
+if(registerNumberInputElement) {
+  registerNumberInputElement.addEventListener('keyup', (e) => {
+    // 주민등록번호 길이 체크
+    checkNumberValueLength(e, registerNumberInputElement, 7);
+  });
+  registerNumberInputElement.addEventListener('keydown', (e) => {
+    checkNumberValue(e);
+  });
+  registerNumberInputElement.addEventListener('focusout', (e) => {
+    checkNumberValueLength(e, registerNumberInputElement, 7);
+    formattingRegisterNumber(registerNumberInputElement);
+  });
+  registerNumberInputElement.addEventListener('focusin', () => {
+    const trimInputValue = removeAllHyphen(registerNumberInputElement.value);
+    if(trimInputValue) registerNumberInputElement.value = trimInputValue;
+  });
+}
+
 
 
 // 이름 input element

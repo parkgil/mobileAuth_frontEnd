@@ -47,15 +47,16 @@ export const setCarrierOptionElements = (carrierSelectElement) => {
   carrierSelectElement.innerHTML = carrierOptions;
 }
 
-// validation check(validator.js에 작성) : keydown
-export const checkPhoneNumberLength = (e, phoneNumberInput) => {
+// 숫자값 길이 체크 : keydown
+export const checkNumberValueLength = (e, element, standardLength) => {
   const inputValue = e.target.value;
-  if(checkInputLength(inputValue, [10, 11])) {
-    checkFulfiledInputLength(e, 11, phoneNumberInput) && handleFocusToNextInputElement(phoneNumberInput);
+  if(checkInputLength(inputValue, standardLength)) {
+    const maxLength = typeof standardLength === 'object' ? standardLength[standardLength.length - 1] : standardLength;
+    checkFulfiledInputLength(e, maxLength, element) && handleFocusToNextInputElement(element);
     // error class 제거
-    phoneNumberInput.classList.remove('error');
+    element.classList.remove('error');
   } else {
-    e.type === 'focusout' && phoneNumberInput.classList.add('error');
+    e.type === 'focusout' && element.classList.add('error');
   }
 }
 
@@ -69,7 +70,7 @@ export const checkNumberValue = (e) => {
 // 휴대폰 번호 input format(스페이스바 삽입) : focusout
 export const formattingPhoneNumber = (phoneNumberInput) => {
   // 10자리인 경우 3,6 사이 space, 11자리인 경우 3, 7 사이 space 추
-  const phoneNumberInputLength = phoneNumberInput.value.length;
+  const phoneNumberInputLength = phoneNumberInput && phoneNumberInput.value.length;
   if(phoneNumberInputLength >= 10) {
     const loc = phoneNumberInputLength === 10 ? [3, 6] : [3, 7];
     const currPhoneNumber = phoneNumberInput.value;
@@ -77,8 +78,14 @@ export const formattingPhoneNumber = (phoneNumberInput) => {
   }
 }
 
-// 주민등록 번호 input format(- 삽입) && validation check(validator.js에 작성) : keydown
-
+// 주민등록 번호 input format(- 삽입)
+export const formattingRegisterNumber = (registerNumberInput) => {
+  const registerNumberInputLength = registerNumberInput && registerNumberInput.value.length;
+  if(registerNumberInputLength === 7) {
+    const currRegisterNumber = registerNumberInput.value;
+    registerNumberInput.value = addSpecialSyntaxForFormat(currRegisterNumber, 6, '-') || currRegisterNumber;
+  }
+}
 // 이름 input validation check(validator.js)에 작성 : keydown
 
 
