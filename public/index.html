@@ -20,12 +20,14 @@
             <div class="input">
                 <label class="title" for="phoneNumber">휴대폰 번호</label>
                 <input type="text" id="phoneNumber" placeholder="010 4645 8757" maxlength="13"/>
+                <div class="error hide"></div>
             </div>
         </div>
         <div class="input-wrapper">
             <div class="input">
                 <label class="title" for="registerNumber">주민등록번호</label>
                 <input type="text" id="registerNumber" placeholder="850226 - 1" maxlength="8"/>
+                <div class="error hide"></div>
             </div>
         </div>
         <div class="input-wrapper">
@@ -34,13 +36,13 @@
                 <input type="text" id="name" placeholder="임정수" maxlength="10"/>
             </div>
         </div>
-        <div>
+        <div class="checkbox-wrapper">
             <ul id="terms"></ul>
             <input type="checkbox" id="allTermAgree" />
             <label for="allTermAgree">전체 동의하기</label>
         </div>
         <div>
-            <div id="certify">인증하기</div>
+            <button class="submit" type="button" id="certify" disabled="disabled">인증하기</button>
         </div>
     </form>
 </div>

@@ -4,7 +4,7 @@ import {
   setTermLiElements,
   clickAllTermsAgree,
   clickEachTermAgree,
-  certify,
+  clickCertify,
   checkNumberValueLength,
   checkNumberValue,
   formattingPhoneNumber,
@@ -15,6 +15,53 @@ import {
   replaceStrForRegex,
 } from './common/utils/commonUtil';
 
+const validationObject = {
+  get isValidPhoneNumber() {
+    console.log('get : ' + this._isValidPhoneNumber);
+    return this._isValidPhoneNumber;
+  },
+  set isValidPhoneNumber(isValidPhoneNumber) {
+    console.log('set : ' + isValidPhoneNumber);
+    this._isValidPhoneNumber = isValidPhoneNumber;
+    this.isValidAll;
+  },
+  get isValidRegisterNumber() {
+    console.log('get : ' + this._isValidRegisterNumber);
+    return this._isValidRegisterNumber;
+  },
+  set isValidRegisterNumber(isValidRegisterNumber) {
+    console.log('set : ' + isValidRegisterNumber);
+    this._isValidRegisterNumber = isValidRegisterNumber;
+    this.isValidAll;
+  },
+  get isValidName() {
+    console.log('get : ' + this._isValidName);
+    return this._isValidName;
+  },
+  set isValidName(isValidName) {
+    console.log('set : ' + isValidName);
+    this._isValidName = isValidName;
+    this.isValidAll;
+  },
+  get isValidTerm() {
+    console.log('get : ' + this._isValidTerm);
+    return this._isValidTerm;
+  },
+  set isValidTerm(isValidTerm) {
+    console.log('set : ' + isValidTerm);
+    this._isValidTerm = isValidTerm;
+    this.isValidAll;
+  },
+  get isValidAll() {
+    if((this._isValidPhoneNumber && this._isValidRegisterNumber && this._isValidName && this._isValidTerm) && certifyButtonElement) {
+      certifyButtonElement.disabled = false;
+      certifyButtonElement.classList.add('active');
+    } else {
+      certifyButtonElement.disabled = true;
+      certifyButtonElement.classList.remove('active');
+    }
+  }
+}
 
 // 통신사 select element
 const carrierSelectElement = document.querySelector('#carrier');
@@ -31,15 +78,13 @@ if(carrierSelectElement) {
 const phoneNumberInputElement = document.querySelector('#phoneNumber');
 if(phoneNumberInputElement) {
   // 휴대폰번호 keyup event
-  phoneNumberInputElement.addEventListener('keyup', (e) => {
+  phoneNumberInputElement.addEventListener('keyup', e => {
     // 휴대폰번호 길이 체크
-    checkNumberValueLength(e, phoneNumberInputElement, [10, 11]);
+    validationObject.isValidPhoneNumber = checkNumberValueLength(e, phoneNumberInputElement, [10, 11]);
   });
-  phoneNumberInputElement.addEventListener('keydown', (e) => {
-    checkNumberValue(e);
-  });
-  phoneNumberInputElement.addEventListener('focusout', (e) => {
-    checkNumberValueLength(e, phoneNumberInputElement, [10, 11]);
+  phoneNumberInputElement.addEventListener('keydown', e => checkNumberValue(e));
+  phoneNumberInputElement.addEventListener('focusout', e => {
+    validationObject.isValidPhoneNumber = checkNumberValueLength(e, phoneNumberInputElement, [10, 11]);
     formattingPhoneNumber(phoneNumberInputElement);
   });
   phoneNumberInputElement.addEventListener('focusin', () => {
@@ -53,15 +98,15 @@ if(phoneNumberInputElement) {
 // 주민등록번호 input element
 const registerNumberInputElement = document.querySelector('#registerNumber');
 if(registerNumberInputElement) {
-  registerNumberInputElement.addEventListener('keyup', (e) => {
+  registerNumberInputElement.addEventListener('keyup', e => {
     // 주민등록번호 길이 체크
-    checkNumberValueLength(e, registerNumberInputElement, 7);
+    validationObject.isValidRegisterNumber = checkNumberValueLength(e, registerNumberInputElement, 7);
   });
-  registerNumberInputElement.addEventListener('keydown', (e) => {
+  registerNumberInputElement.addEventListener('keydown', e => {
     checkNumberValue(e);
   });
-  registerNumberInputElement.addEventListener('focusout', (e) => {
-    checkNumberValueLength(e, registerNumberInputElement, 7);
+  registerNumberInputElement.addEventListener('focusout', e => {
+    validationObject.isValidRegisterNumber = checkNumberValueLength(e, registerNumberInputElement, 7);
     formattingRegisterNumber(registerNumberInputElement);
   });
   registerNumberInputElement.addEventListener('focusin', () => {
@@ -79,6 +124,7 @@ if(nameInputElement) {
   nameInputElement.addEventListener('keydown', () => {
     const trimInputValue = replaceStrForRegex(nameInputElement.value, /[a-z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g);
     nameInputElement.value = trimInputValue;
+    validationObject.isValidName = nameInputElement.value.length > 0;
   });
 }
 
@@ -88,13 +134,18 @@ if(nameInputElement) {
 const termUlElement = document.querySelector('#terms');
 if(termUlElement) {
   setTermLiElements(termUlElement);
-  termUlElement.addEventListener('click', () => clickEachTermAgree(termUlElement, allTermsAgreeCheckboxElement));
+  termUlElement.addEventListener('click', () => {
+    const nonCheckedTerms = clickEachTermAgree(termUlElement, allTermsAgreeCheckboxElement).map(term => term.value);
+    validationObject.isValidTerm = !nonCheckedTerms.includes("1") && !nonCheckedTerms.includes("2") && !nonCheckedTerms.includes("3");
+  });
 }
 
 // 전체 동의 checkbox element
 const allTermsAgreeCheckboxElement = document.querySelector('#allTermAgree');
 if(allTermsAgreeCheckboxElement) {
-  allTermsAgreeCheckboxElement.addEventListener('click', (e) => clickAllTermsAgree(e, termUlElement));
+  allTermsAgreeCheckboxElement.addEventListener('click', e => {
+    validationObject.isValidTerm = clickAllTermsAgree(e, termUlElement);
+  });
 }
 
 
@@ -102,5 +153,5 @@ if(allTermsAgreeCheckboxElement) {
 const certifyButtonElement = document.querySelector('#certify');
 if(certifyButtonElement) {
   const form = document.querySelector('form');
-  certifyButtonElement.addEventListener('click', () => certify(form));
+  if(form) certifyButtonElement.addEventListener('click', () => clickCertify(form));
 }

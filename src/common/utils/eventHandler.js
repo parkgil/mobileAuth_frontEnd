@@ -7,7 +7,7 @@ import {
 
 // 다음 항목으로 포커스 이동
 export const handleFocusToNextInputElement = (currElement) => {
-  const wrapperElement = currElement.parentElement.parentElement;
+  const wrapperElement = currElement && currElement.parentElement.parentElement;
   const nextWrapperElement = wrapperElement && wrapperElement.nextElementSibling;
   const nextInputElement = nextWrapperElement && nextWrapperElement.childElementCount > 0 ? nextWrapperElement.querySelector('input') : null;
 
@@ -15,7 +15,7 @@ export const handleFocusToNextInputElement = (currElement) => {
 }
 
 // input 길이 다채운 경우
-export const checkFulfiledInputLength = (e, maxLength) => e.target.value === maxLength;
+export const checkFulfiledInputLength = (e, maxLength) => e.target.value.length === maxLength;
 
 const addSpecialSyntaxForFormat = (value, loc, syntax) => {
   let result = '';
@@ -48,14 +48,20 @@ export const checkNumberValueLength = (e, element, standardLength) => {
     const maxLength = typeof standardLength === 'object' ? standardLength[standardLength.length - 1] : standardLength;
     checkFulfiledInputLength(e, maxLength) && handleFocusToNextInputElement(element);
     // error class 제거
-    element.classList.remove('error');
+    element && element.classList.remove('error');
+    return true;
+
   } else {
-    e.type === 'focusout' && element.classList.add('error');
+    e.type === 'focusout' && element && (inputValue.length === 0
+      ? element.classList.remove('error')
+      : element.classList.add('error'));
+
+    return false;
   }
 }
 
 // 숫자 값 체크
-export const checkNumberValue = (e) => {
+export const checkNumberValue = e => {
   if(!checkNumberFormat(e)) {
     e.preventDefault();
   }
@@ -64,9 +70,16 @@ export const checkNumberValue = (e) => {
 // 휴대폰 번호 input format(스페이스바 삽입) : focusout
 export const formattingPhoneNumber = (phoneNumberInput) => {
   // 10자리인 경우 3,6 사이 space, 11자리인 경우 3, 7 사이 space 추
+  const PHONE_NUMBER_MIN_LENGTH = 10;
+  const FIRST_PHONE_NUMBER_BASE_POINT = 3;
+  const SECOND_PHONE_NUMBER_BASE_POINT = 6;
+  const THIRD_PHONE_NUMBER_BASE_POINT = 7;
   const phoneNumberInputLength = phoneNumberInput && phoneNumberInput.value.length;
-  if(phoneNumberInputLength >= 10) {
-    const loc = phoneNumberInputLength === 10 ? [3, 6] : [3, 7];
+
+  if(phoneNumberInputLength >= PHONE_NUMBER_MIN_LENGTH) {
+    const loc = (phoneNumberInputLength === PHONE_NUMBER_MIN_LENGTH)
+      ? [FIRST_PHONE_NUMBER_BASE_POINT, SECOND_PHONE_NUMBER_BASE_POINT]
+      : [FIRST_PHONE_NUMBER_BASE_POINT, THIRD_PHONE_NUMBER_BASE_POINT];
     const currPhoneNumber = phoneNumberInput.value;
     phoneNumberInput.value = addSpecialSyntaxForFormat(currPhoneNumber, loc, ' ') || currPhoneNumber;
   }
@@ -74,10 +87,12 @@ export const formattingPhoneNumber = (phoneNumberInput) => {
 
 // 주민등록 번호 input format(- 삽입)
 export const formattingRegisterNumber = (registerNumberInput) => {
+  const REGISTER_NUMBER_STANDARD = 7;
+  const REGISTER_NUMBER_BASE_POINT = 6;
   const registerNumberInputLength = registerNumberInput && registerNumberInput.value.length;
-  if(registerNumberInputLength === 7) {
+  if(registerNumberInputLength === REGISTER_NUMBER_STANDARD) {
     const currRegisterNumber = registerNumberInput.value;
-    registerNumberInput.value = addSpecialSyntaxForFormat(currRegisterNumber, 6, '-') || currRegisterNumber;
+    registerNumberInput.value = addSpecialSyntaxForFormat(currRegisterNumber, REGISTER_NUMBER_BASE_POINT, '-') || currRegisterNumber;
   }
 }
 // 이름 input validation check(validator.js)에 작성 : keydown
@@ -98,19 +113,23 @@ export const setTermLiElements = (termUlElement) => {
 // 전체동의 클릭
 export const clickAllTermsAgree = (e, termUlElement) => {
   const checked = e.target.checked;
-  const termLiElements = Array.from(termUlElement.children) || [];
+  const termLiElements = Array.from(termUlElement.children || []) ;
   termLiElements.map(li => li.children[0].checked = checked);
+
+  return checked && termLiElements.length > 0;
 }
 
 // 약관 checkbox 클릭 이벤트
 export const clickEachTermAgree = (termUlElement, allTermsAgreeCheckboxElement) => {
-  const termLiElements = Array.from(termUlElement.children) || [];
-  const nonCheckedCount = termLiElements.filter(li => !li.children[0].checked).length;
-  allTermsAgreeCheckboxElement.checked = nonCheckedCount === 0;
+  const termLiElements = Array.from(termUlElement.children || []);
+  const nonCheckedTerms = termLiElements.filter(li => !li.children[0].checked).map(li => li.querySelector('input[type="checkbox"]'));
+  allTermsAgreeCheckboxElement.checked = nonCheckedTerms.length === 0;
+
+  return nonCheckedTerms;
 }
 
 
-export const certify = (form) => {
+export const clickCertify = (form) => {
   let result = {name: null, registerNumber: null, carrierCode: null, phoneNumber: null, termsCode: null};
 
   // 통신사
@@ -118,7 +137,7 @@ export const certify = (form) => {
   result.carrierCode = carrierCode;
 
   // input(휴대폰번호, 주민등록번호, 이름)
-  const inputElements = Array.from(form.querySelectorAll('input[type="text"]')) || [];
+  const inputElements = Array.from(form.querySelectorAll('input[type="text"]'));
   inputElements.map(inputElement => {
     result[inputElement.id] = inputElement.value;
   });
@@ -126,7 +145,7 @@ export const certify = (form) => {
   // 약관
   let termsCode = form.querySelector('#allTermAgree:checked') ? ["1", "2", "3", "4"] : null;
   if(!termsCode) {
-    const termElements = Array.from(form.querySelectorAll('input[type="checkbox"]:not(#allTermAgree):checked')) || [];
+    const termElements = Array.from(form.querySelectorAll('input[type="checkbox"]:not(#allTermAgree):checked'));
     termsCode = termElements.map(term => term.value);
   }
   result.termsCode = termsCode;
