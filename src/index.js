@@ -1,12 +1,19 @@
 import {
-    handleFocusToNextInputElement,
-    setCarrierOptionElements,
-    setTermLiElements,
-    clickAllTermsAgree,
-    clickEachTermAgree,
-    handleFullInputLength,
-    certify,
+  handleFocusToNextInputElement,
+  setCarrierOptionElements,
+  setTermLiElements,
+  clickAllTermsAgree,
+  clickEachTermAgree,
+  handleFullInputLength,
+  certify,
+  checkPhoneNumberLength,
+  checkNumberValue,
+  formattingPhoneNumber,
 } from './common/utils/eventHandler';
+
+import {
+  removeSpace
+} from './common/utils/commonUtil';
 
 
 // 통신사 select element
@@ -19,12 +26,34 @@ carrierSelectElement.addEventListener('change', () => handleFocusToNextInputElem
 
 // 휴대폰번호 input element
 const phoneNumberInputElement = document.querySelector('#phoneNumber');
-phoneNumberInputElement.addEventListener('keyup', (e) => handleFullInputLength(e, 11, phoneNumberInputElement));
+if(phoneNumberInputElement) {
+  // 휴대폰번호 keyup event
+  phoneNumberInputElement.addEventListener('keyup', (e) => {
+    // 휴대폰번호 길이 체크
+    checkPhoneNumberLength(e, phoneNumberInputElement);
+  });
+  phoneNumberInputElement.addEventListener('keydown', (e) => {
+    checkNumberValue(e);
+  });
+  phoneNumberInputElement.addEventListener('focusout', () => {
+    formattingPhoneNumber(phoneNumberInputElement);
+  });
+  phoneNumberInputElement.addEventListener('focusin', () => {
+    const trimInputValue = removeSpace(phoneNumberInputElement.value).replace(/(\s*)/g, '');
+    if(trimInputValue) phoneNumberInputElement.value = trimInputValue;
+  });
+}
+
 
 
 // 주민등록번호 input element
 const registerNumberInputElement = document.querySelector('#registerNumber');
-registerNumberInputElement.addEventListener('keyup', (e) => handleFullInputLength(e, 7, registerNumberInputElement));
+registerNumberInputElement.addEventListener('keyup', (e) => {
+  handleFullInputLength(e, 7, registerNumberInputElement);
+});
+registerNumberInputElement.addEventListener('keydown', (e) => {
+  checkNumberValue(e);
+})
 
 
 // 이름 input element

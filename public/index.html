@@ -11,32 +11,33 @@
 <div class="wrapper">
     <form>
         <div class="input-wrapper">
-            <div class="title"><p>통신사</p></div>
             <div class="input">
+                <label class="title" for="carrier">통신사</label>
                 <select id="carrier"></select>
             </div>
         </div>
         <div class="input-wrapper">
-            <div class="title"><p>휴대폰 번호</p></div>
             <div class="input">
+                <label class="title" for="phoneNumber">휴대폰 번호</label>
                 <input type="text" id="phoneNumber" placeholder="010 4645 8757" maxlength="13"/>
             </div>
         </div>
         <div class="input-wrapper">
-            <div class="title"><p>주민등록번호</p></div>
             <div class="input">
+                <label class="title" for="registerNumber">주민등록번호</label>
                 <input type="text" id="registerNumber" placeholder="850226 - 1" maxlength="10"/>
             </div>
         </div>
         <div class="input-wrapper">
-            <div class="title"><p>이름</p></div>
             <div class="input">
+                <label class="title" for="name">이름</label>
                 <input type="text" id="name" placeholder="임정수" maxlength="10"/>
             </div>
         </div>
         <div>
             <ul id="terms"></ul>
-            <input type="checkbox" id="allTermAgree" />전체 동의하기
+            <input type="checkbox" id="allTermAgree" />
+            <label for="allTermAgree">전체 동의하기</label>
         </div>
         <div>
             <div id="certify">인증하기</div>

@@ -22,23 +22,60 @@ export const handleFullInputLength = (e, maxLength, element) => {
   }
 }
 
+const addSpecialSyntaxForFormat = (value, loc, syntax) => {
+  let result = '';
+  const valueLength = value && value.length;
+  if(valueLength && loc && syntax) {
+    if(typeof loc === "object" && loc.length > 0) {
+      let locArrStartIndex = 0;
+      loc.map(locNum => {
+        result += value.substring(locArrStartIndex, locNum) + syntax;
+        locArrStartIndex = locNum;
+      });
+      result += value.substring(locArrStartIndex, valueLength);
+    } else if(Number(loc) > 0) {
+      result = value.substring(0, loc) + syntax + value.substring(loc, valueLength);
+    }
+  }
+  return result;
+}
+
 // 통신사 option element 설정
 export const setCarrierOptionElements = (carrierSelectElement) => {
   const carrierOptions = Carriers.map(carrier => (`<option value=${carrier.code}>${carrier.description}</option>`)).join('');
   carrierSelectElement.innerHTML = carrierOptions;
 }
 
-// 휴대폰 번호 input format(스페이스바 삽입) && validation check(validator.js에 작성) : keydown
-export const checkPhoneNumberInputValue = (e, phoneNumberInput) => {
-  const currKey = e.key;
+// validation check(validator.js에 작성) : keydown
+export const checkPhoneNumberLength = (e, phoneNumberInput) => {
   const inputValue = e.target.value;
-  if(checkInputLength(inputValue) && checkNumberFormat(currKey)) {
-
+  if(checkInputLength(inputValue, [10, 11])) {
+    handleFullInputLength(e, 11, phoneNumberInput);
+    // error class 제거
+    phoneNumberInput.classList.remove('error');
   } else {
-
+    phoneNumberInput.classList.add('error');
   }
-
 }
+
+// 숫자 값 체크
+export const checkNumberValue = (e) => {
+  if(!checkNumberFormat(e)) {
+    e.preventDefault();
+  }
+}
+
+// 휴대폰 번호 input format(스페이스바 삽입) : focusout
+export const formattingPhoneNumber = (phoneNumberInput) => {
+  // 10자리인 경우 3,6 사이 space, 11자리인 경우 3, 7 사이 space 추
+  const phoneNumberInputLength = phoneNumberInput.value.length;
+  if(phoneNumberInputLength >= 10) {
+    const loc = phoneNumberInputLength === 10 ? [3, 6] : [3, 7];
+    const currPhoneNumber = phoneNumberInput.value;
+    phoneNumberInput.value = addSpecialSyntaxForFormat(currPhoneNumber, loc, ' ') || currPhoneNumber;
+  }
+}
+
 // 주민등록 번호 input format(- 삽입) && validation check(validator.js에 작성) : keydown
 
 // 이름 input validation check(validator.js)에 작성 : keydown
@@ -46,7 +83,13 @@ export const checkPhoneNumberInputValue = (e, phoneNumberInput) => {
 
 // 약관 li element 설정
 export const setTermLiElements = (termUlElement) => {
-  const termsLis = Terms.map(term => (`<li><input type="checkbox" value=${term.termsId}>${term.title}</li>`)).join('');
+  const termsLis = Terms.map(term => (
+    `<li>
+        <input id=${'term' + term.termsId} type="checkbox" value=${term.termsId}>
+        <label id=${'termLabel' + term.termsId} for=${'term' + term.termsId}>${term.title}</label>
+     </li>`
+  )).join('');
+
   termUlElement.innerHTML = termsLis;
 }
 
