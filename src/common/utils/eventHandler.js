@@ -15,11 +15,12 @@ export const handleFocusToNextInputElement = (currElement) => {
 }
 
 // input 길이 다채운 경우
-export const handleFullInputLength = (e, maxLength, element) => {
+export const checkFulfiledInputLength = (e, maxLength, element) => {
   const inputValue = e.target.value;
   if(inputValue.length === maxLength) {
-    handleFocusToNextInputElement(element);
+    return true;
   }
+  return false;
 }
 
 const addSpecialSyntaxForFormat = (value, loc, syntax) => {
@@ -50,11 +51,11 @@ export const setCarrierOptionElements = (carrierSelectElement) => {
 export const checkPhoneNumberLength = (e, phoneNumberInput) => {
   const inputValue = e.target.value;
   if(checkInputLength(inputValue, [10, 11])) {
-    handleFullInputLength(e, 11, phoneNumberInput);
+    checkFulfiledInputLength(e, 11, phoneNumberInput) && handleFocusToNextInputElement(phoneNumberInput);
     // error class 제거
     phoneNumberInput.classList.remove('error');
   } else {
-    phoneNumberInput.classList.add('error');
+    e.type === 'focusout' && phoneNumberInput.classList.add('error');
   }
 }
 

@@ -35,7 +35,8 @@ if(phoneNumberInputElement) {
   phoneNumberInputElement.addEventListener('keydown', (e) => {
     checkNumberValue(e);
   });
-  phoneNumberInputElement.addEventListener('focusout', () => {
+  phoneNumberInputElement.addEventListener('focusout', (e) => {
+    checkPhoneNumberLength(e, phoneNumberInputElement);
     formattingPhoneNumber(phoneNumberInputElement);
   });
   phoneNumberInputElement.addEventListener('focusin', () => {
