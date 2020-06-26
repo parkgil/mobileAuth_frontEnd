@@ -29,7 +29,7 @@ registerNumberInputElement.addEventListener('keyup', (e) => handleFullInputLengt
 
 // 이름 input element
 const nameInput = document.querySelector('#name');
-nameInput.addEventListener('keyup', (e) => handleFullInputLength(e, 3, nameInput));
+nameInput.addEventListener('keyup', (e) => {});
 
 
 // 약관 ul element

@@ -25,7 +25,6 @@ export const handleFullInputLength = (e, maxLength, element) => {
 // 통신사 option element 설정
 export const setCarrierOptionElements = (carrierSelectElement) => {
   const carrierOptions = Carriers.map(carrier => (`<option value=${carrier.code}>${carrier.description}</option>`)).join('');
-  console.log(carrierOptions);
   carrierSelectElement.innerHTML = carrierOptions;
 }
 
@@ -87,5 +86,6 @@ export const certify = (form) => {
   }
   result.termsCode = termsCode;
 
+  // 결과 출력
   console.log(result);
 }
