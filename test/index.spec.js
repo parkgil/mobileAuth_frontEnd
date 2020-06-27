@@ -1,9 +1,12 @@
 const assert = require('assert');
+const event = require('../src/js/index');
 
-describe('test function', () => {
-  describe('test add', () => {
-    it('더했을 때의 값을 확인함', () => {
-      assert.equal(5, func(2, 3));
+describe('validationObject', ()=> {
+  describe('각 validation 여부를 확', ()=>{
+    it('결과 => ', ()=> {
+      const isValidPhoneNumber = validationObject.isValidPhoneNumber;
+
+      expect(false).toBe(isValidPhoneNumber);
     })
   })
 });
