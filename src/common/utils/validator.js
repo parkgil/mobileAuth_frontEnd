@@ -15,7 +15,6 @@ export const checkInputLength = (value, demandedLength) => {
   return false;
 }
 
-
 export const checkNumberFormat = e => {
   const BACK_SPACE_KEY_CODE = 8;
   const TAB_KEY_CODE = 9;
