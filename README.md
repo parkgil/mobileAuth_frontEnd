@@ -83,3 +83,15 @@
         * setter를 통해 각 항목의 validation 체크 시마다 통과여부 확인
         * getter를 통해 각 항목의 값이 모두 통과인지 확인
        
+- 단위 테스트
+        
+        [테스트환경구성]
+        -karma + jasmine : karma에서 jasmine 프레임워크를 활용
+        
+        yarn add karma --save
+        
+        #명령어를 통해 설정파일 생(karma.conf.js)
+        node_modules/.bin/karma init
+        
+        #karma plug-in 설치
+        yarn add karma-jasmine jasmine-core karma-chrome-launcher --save
