@@ -1,3 +1,4 @@
+require('../css/style.css');
 import {
   setCarrierOptionElements,
   handleChangeCarrierSelectElement,
@@ -19,7 +20,7 @@ import {
   handleClickAllTermsAgreeElement,
 
   handleClickCertifyButtonElement,
-} from './common/utils/eventHandler';
+} from './utils/eventHandler';
 
 const validationObject = {
   get isValidPhoneNumber() {

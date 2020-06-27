@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -7,10 +8,23 @@ module.exports = {
     },
     mode: 'development',
     entry: { // js파일 가져와서 bundle할때 필요한 경로
-        app: './src/index.js'
+        app: './src/js/index.js'
     },
     output: { // webpack 사용해서 bundle파일 만들때 경로지정
         filename: "bundle.js",
         path: path.resolve(__dirname, 'public')
-    }
+    },
+    module:{
+        rules:[
+            {
+                test:/\.css$/,
+                use:['style-loader','css-loader']
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/template/index.html'
+        })
+    ]
 }
