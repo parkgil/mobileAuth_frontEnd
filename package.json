@@ -19,7 +19,7 @@
     "html-webpack-plugin": "^4.3.0",
     "jasmine-core": "^3.5.0",
     "karma": "^5.1.0",
-    "mocha": "^8.0.1",
+    "mocha": "^8.4.0",
     "style-loader": "^1.2.1"
   }
 }
